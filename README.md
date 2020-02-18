@@ -1,1 +1,1 @@
-# smart-selectors
+# Smart Selectors
