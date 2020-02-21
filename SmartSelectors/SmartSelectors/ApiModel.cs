@@ -29,7 +29,7 @@
                     Accuracy = cachedResponse.Accuracy,
                     IsCached = true
                 };
-            var prediction = GetPrediction(byteArray, label);
+            var prediction = GetPrediction(byteArray);
             if (prediction == null) return new ModelResponse
             {
                 Prediction = false,
@@ -50,9 +50,9 @@
             return response;
         }
 
-        private PredictionModel GetPrediction(byte[] byteArray, string label)
+        private PredictionModel GetPrediction(byte[] byteArray)
         {
-            var request = new RestRequest($"predict/categories/{label}", Method.POST);
+            var request = new RestRequest("predict/", Method.POST);
             request.AddFileBytes("image", byteArray, "image");
             request.AddHeader("Content-Type", "multipart/form-data");
             var response = _restClient.Execute<PredictionsModel>(request);

@@ -1,7 +1,9 @@
 ﻿namespace SmartSelectors
 {
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
 
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     internal class PredictionsModel
     {
         public string ErrorMessage { get; set; }

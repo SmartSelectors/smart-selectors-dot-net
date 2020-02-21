@@ -1,6 +1,6 @@
 ﻿namespace SmartSelectors
 {
-    public class ModelResponse : IModelResponse
+    internal class ModelResponse : IModelResponse
     {
         public bool Prediction { get; set; }
         public string Label { get; set; }
