@@ -25,6 +25,7 @@ namespace SmartSelectors
         private readonly int _inputSizeFlat;
         private readonly IReadOnlyCollection<string> _categoriesInModel;
 
+        // ReSharper disable once UnusedMember.Global
         public OnnxModel() : this(null)
         {
         }

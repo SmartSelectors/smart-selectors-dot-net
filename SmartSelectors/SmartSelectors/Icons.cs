@@ -1,5 +1,9 @@
 ﻿namespace SmartSelectors
 {
+    using System.Diagnostics.CodeAnalysis;
+
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public enum Icons
     {
         Add,
