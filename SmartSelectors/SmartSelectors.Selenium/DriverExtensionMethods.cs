@@ -19,9 +19,7 @@
         public static IWebElement FindIcon(this IWebDriver driver, Icons label, bool useRemoteModel = false)
         {
             var model = useRemoteModel ? (IModel) new ApiModel() : new OnnxModel(null);
-            var javaScriptExecutor = (IJavaScriptExecutor)driver;
-            if (!(javaScriptExecutor.ExecuteScript(Properties.Resources.GetElements) is IList<IWebElement> webElements)) return default;
-            var webElement = PredictTWebElements(label, webElements, model);
+            var webElement = FindAndPredictTWebElements(driver, model, label);
             if (webElement == null) throw new NoSuchElementException(string.Format(ExceptionMessage, label));
             return webElement;
         }
@@ -43,16 +41,16 @@
             catch (NoSuchElementException e)
             {
                 var model = new OnnxModel(null);
-                var javaScriptExecutor = (IJavaScriptExecutor)driver;
-                if (!(javaScriptExecutor.ExecuteScript(Properties.Resources.GetElements) is IList<IWebElement> webElements)) return default;
-                var webElement = PredictTWebElements(label, webElements, model);
+                var webElement = FindAndPredictTWebElements(driver, model, label);
                 if (webElement == null) throw new NoSuchElementException($"{e.Message}.\n {string.Format(ExceptionMessage, label)}");
                 return webElement;
             }
         }
 
-        private static IWebElement PredictTWebElements(Icons label, IEnumerable<IWebElement> webElements, IModel model)
+        private static IWebElement FindAndPredictTWebElements(IWebDriver driver, IModel model, Icons label)
         {
+            var javaScriptExecutor = (IJavaScriptExecutor)driver;
+            if (!(javaScriptExecutor.ExecuteScript(Properties.Resources.GetElements) is IList<IWebElement> webElements)) return default;
             IWebElement webElement = null;
             foreach (var element in webElements)
             {
