@@ -34,26 +34,18 @@ namespace SmartSelectors
         {
             _imageCache = new SimpleMemoryCache<ModelResponse>();
 
-            var modelPath = GetModelPath(modelName);
-            var categoriesFilePath = GetCategoriesFilePath(modelName);
-
-            if (modelName == null && Path.GetFileNameWithoutExtension(modelPath) != Path.GetFileNameWithoutExtension(categoriesFilePath))
-            {
-                throw new Exception("The Model File Name doesn't match the Categories File Name");
-            }
-
             var options = new SessionOptions
             {
                 GraphOptimizationLevel = GraphOptimizationLevel.ORT_ENABLE_EXTENDED
             };
-            _inferenceSession = new InferenceSession(modelPath, options);
+            _inferenceSession = new InferenceSession(Properties.Resources.Model, options);
             _inputMetadata = _inferenceSession.InputMetadata;
             _inputDimensions = _inputMetadata.ElementAt(0).Value.Dimensions.Select(Math.Abs).ToArray();
             var inputSize = _inputDimensions.Skip(1).ToArray();
             _width = inputSize[0];
             _height = inputSize[1];
             _inputSizeFlat = inputSize.Aggregate((a, b) => a * b);
-            _categoriesInModel = File.ReadAllText(categoriesFilePath).Split('\n').Select(x => x.Split(':')[0]).ToArray();
+            _categoriesInModel = Properties.Resources.Categories.Split('\n').Select(x => x.Split(':')[0]).ToArray();
         }
 
         public IModelResponse Predict(byte[] imageBytes, string label)
@@ -90,42 +82,7 @@ namespace SmartSelectors
             return response;
         }
 
-        private static string GetModelPath(string modelName)
-        {
-            var modelSearchPattern = (modelName ?? "*") + OnnxFileExtension;
-            var modelFiles = Directory.EnumerateFiles(ModelsFolderPath, modelSearchPattern, SearchOption.TopDirectoryOnly).ToList();
-
-            if (!modelFiles.Any())
-            {
-                throw new InvalidOperationException($"No ONNX models found in Models folder with search pattern: {modelSearchPattern}");
-            }
-
-            if (modelFiles.Count > 1)
-            {
-                throw new InvalidOperationException($"More than one ONNX model found in Models folder with search pattern: {modelSearchPattern}");
-            }
-
-            return modelFiles[0];
-        }
-
-        private static string GetCategoriesFilePath(string modelName)
-        {
-            var categoriesSearchPattern = (modelName ?? "*") + CategoriesFileExtension;
-            var categoriesFiles = Directory.EnumerateFiles(ModelsFolderPath, categoriesSearchPattern, SearchOption.TopDirectoryOnly).ToList();
-
-            if (!categoriesFiles.Any())
-            {
-                throw new InvalidOperationException($"No Categories file found in Models folder with search pattern: {categoriesSearchPattern}");
-            }
-
-            if (categoriesFiles.Count > 1)
-            {
-                throw new InvalidOperationException($"More than one Categories file found in Models folder with search pattern: {categoriesSearchPattern}");
-            }
-
-            return categoriesFiles[0];
-        }
-
+        
         private float[] PreprocessImage(byte[] imageBytes)
         {
             var imageFile = Image.FromStream(new MemoryStream(imageBytes));

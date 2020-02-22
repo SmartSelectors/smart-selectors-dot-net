@@ -1,12 +1,12 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <PackageId>SmartSelectors</PackageId>
-    <Version>0.1.1</Version>
+    <Version>0.1.2</Version>
     <Authors>Damian Pereira, Rodrigo Valdez</Authors>
     <Description>A set of machine learning models to predict if an image is a certain type of web element.</Description>
-    <PackageTags>MachineLearning;automation</PackageTags>
+    <PackageTags>MachineLearning;automation;testing</PackageTags>
     <RepositoryUrl>https://github.com/SmartSelectors/smart-selectors-dot-net</RepositoryUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
   </PropertyGroup>
@@ -19,15 +19,26 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Models\model_best_2020_01_28_21_28_45.onnx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Models\Model.onnx">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-    <None Update="Models\model_best_2020_01_28_21_28_45.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <None Update="Models\Categories.txt">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 

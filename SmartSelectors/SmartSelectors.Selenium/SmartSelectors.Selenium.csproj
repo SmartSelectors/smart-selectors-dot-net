@@ -2,11 +2,18 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <PackageId>SmartSelectors.Selenium</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>Damian Pereira, Rodrigo Valdez</Authors>
+    <Description>A set of extension methods to find elemens using machine learning models.</Description>
+    <PackageTags>MachineLearning;Automation;Testing;Selenium</PackageTags>
+    <RepositoryUrl>https://github.com/SmartSelectors/smart-selectors-dot-net</RepositoryUrl>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
-    <PackageReference Include="SmartSelectors" Version="0.1.0" />
+    <PackageReference Include="SmartSelectors" Version="0.1.2" />
   </ItemGroup>
 
   <ItemGroup>
