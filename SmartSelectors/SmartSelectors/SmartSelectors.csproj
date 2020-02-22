@@ -3,11 +3,12 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <PackageId>SmartSelectors</PackageId>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <Authors>Damian Pereira, Rodrigo Valdez</Authors>
-    <Description>A set of Machine Learning models to select web elements.</Description>
-    <PackageTags>machine learning;automation</PackageTags>
+    <Description>A set of machine learning models to predict if an image is a certain type of web element.</Description>
+    <PackageTags>MachineLearning;automation</PackageTags>
     <RepositoryUrl>https://github.com/SmartSelectors/smart-selectors-dot-net</RepositoryUrl>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>

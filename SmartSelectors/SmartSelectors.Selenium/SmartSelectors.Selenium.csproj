@@ -6,14 +6,11 @@
 
   <ItemGroup>
     <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
+    <PackageReference Include="SmartSelectors" Version="0.1.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Scripts\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\SmartSelectors\SmartSelectors.csproj" />
   </ItemGroup>
 
   <ItemGroup>
