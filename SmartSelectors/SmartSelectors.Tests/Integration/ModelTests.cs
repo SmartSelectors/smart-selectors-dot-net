@@ -24,7 +24,7 @@
         public void IconPredictionWithApiModel()
         {
             var summary = PredictTestSet(new ApiModel());
-            summary.AverageTime.Should().BeLessOrEqualTo(TimeSpan.FromMilliseconds(400));
+            summary.AverageTime.Should().BeLessOrEqualTo(TimeSpan.FromMilliseconds(500));
         }
 
         private static SummaryModel PredictTestSet(IModel model)

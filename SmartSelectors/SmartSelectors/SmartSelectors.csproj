@@ -2,6 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <PackageId>SmartSelectors</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>Damian Pereira, Rodrigo Valdez</Authors>
+    <Description>A set of Machine Learning models to select web elements.</Description>
+    <PackageTags>machine learning;automation</PackageTags>
+    <RepositoryUrl>https://github.com/SmartSelectors/smart-selectors-dot-net</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
