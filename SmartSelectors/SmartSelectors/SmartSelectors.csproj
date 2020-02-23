@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <PackageId>SmartSelectors</PackageId>
-    <Version>0.1.7</Version>
+    <Version>0.2.0</Version>
     <Authors>Damian Pereira, Rodrigo Valdez</Authors>
     <Description>A set of machine learning models to predict if an image is a certain type of web element.</Description>
     <PackageTags>MachineLearning;automation;testing</PackageTags>
