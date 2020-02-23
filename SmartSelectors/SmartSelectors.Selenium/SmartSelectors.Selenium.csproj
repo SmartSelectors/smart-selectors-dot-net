@@ -1,9 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <PackageId>SmartSelectors.Selenium</PackageId>
-    <Version>0.1.1</Version>
+    <Version>0.1.2</Version>
     <Authors>Damian Pereira, Rodrigo Valdez</Authors>
     <Description>A set of Selenium extension methods to find elemens using machine learning models.</Description>
     <PackageTags>MachineLearning;Automation;Testing;Selenium</PackageTags>
