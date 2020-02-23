@@ -1,4 +1,4 @@
-name: publish smart-selectors-selenium to nuget
+name: publish to nuget
 on:
   push:
     branches:
