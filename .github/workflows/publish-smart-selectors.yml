@@ -1,4 +1,4 @@
-name: publish SmartSelectors
+name: publish-SmartSelectors
 on:
   push:
     branches:
