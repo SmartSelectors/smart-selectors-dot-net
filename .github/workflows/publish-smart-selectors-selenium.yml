@@ -1,4 +1,4 @@
-name: publish SmartSelectors.Selenium
+name: publish-SmartSelectors.Selenium
 on:
   push:
     branches:
