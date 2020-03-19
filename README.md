@@ -55,5 +55,3 @@ favoriteIcon.Click();
 ```
 
 In case the DOM changes and the selector gets broken, the icon search will be executed as in the first example.
-
-### License: Apache License 2.0
