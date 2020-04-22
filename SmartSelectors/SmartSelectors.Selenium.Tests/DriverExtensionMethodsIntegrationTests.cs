@@ -54,7 +54,7 @@
         {
             _driver.Navigate().GoToUrl("https://www.walmart.com/");
             var cartIcon = _driver.FindElement(By.CssSelector("#brokenSelector"), Icons.Cart);
-            cartIcon.Click();
+            cartIcon.Click(); 
             var cartMessage = _driver.FindElement(By.XPath(CartMessageXPath));
             cartMessage.Text.Should().Be(ExpectedCartMessage);
         }
@@ -67,6 +67,14 @@
                 .Should().Throw<NoSuchElementException>()
                 .Where(x => x.Message.Contains("no such element: Unable to locate element:"))
                 .Where(x => x.Message.Contains($"Unable to locate {Icons.Add} icon."));
+        }
+
+        [Test]
+        public void FindSeveralIcons()
+        {
+            _driver.Navigate().GoToUrl("http://opencart.abstracta.us/");
+            var favIcons = _driver.FindIcons(Icons.Favorite);
+            favIcons.Should().HaveCountGreaterThan(1);
         }
 
         [TearDown]
