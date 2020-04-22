@@ -19,9 +19,24 @@
         public static IWebElement FindIcon(this IWebDriver driver, Icons label, bool useRemoteModel = false)
         {
             var model = useRemoteModel ? (IModel) new ApiModel() : new OnnxModel(null);
-            var webElement = FindAndPredictTWebElements(driver, model, label);
+            var webElement = FindAndPredictTWebElement(driver, model, label);
             if (webElement == null) throw new NoSuchElementException(string.Format(ExceptionMessage, label));
             return webElement;
+        }
+
+        /// <summary>
+        /// Finds an Icon element matching <paramref name="label"/>
+        /// </summary>
+        /// <param name="label">The label representing the Icon to find</param>
+        /// <param name="useRemoteModel">Flag to use the local/remote model (optional, defaults to false) </param>
+        /// <returns>A list of matching <see cref="T:OpenQA.Selenium.IWebElement" />.</returns>
+        /// <exception cref="T:OpenQA.Selenium.NoSuchElementException">If no element matches the criteria.</exception>
+        public static IReadOnlyCollection<IWebElement> FindIcons(this IWebDriver driver, Icons label, bool useRemoteModel = false)
+        {
+            var model = useRemoteModel ? (IModel)new ApiModel() : new OnnxModel(null);
+            var webElements = FindAndPredictTWebElements(driver, model, label);
+            if (webElements == null) throw new NoSuchElementException(string.Format(ExceptionMessage, label));
+            return webElements;
         }
 
         /// <summary>
@@ -41,13 +56,13 @@
             catch (NoSuchElementException e)
             {
                 var model = new OnnxModel(null);
-                var webElement = FindAndPredictTWebElements(driver, model, label);
+                var webElement = FindAndPredictTWebElement(driver, model, label);
                 if (webElement == null) throw new NoSuchElementException($"{e.Message}.\n {string.Format(ExceptionMessage, label)}");
                 return webElement;
             }
         }
 
-        private static IWebElement FindAndPredictTWebElements(IWebDriver driver, IModel model, Icons label)
+        private static IWebElement FindAndPredictTWebElement(IWebDriver driver, IModel model, Icons label)
         {
             var javaScriptExecutor = (IJavaScriptExecutor)driver;
             if (!(javaScriptExecutor.ExecuteScript(Properties.Resources.GetElements) is IList<IWebElement> webElements)) return default;
@@ -61,6 +76,21 @@
                 break;
             }
             return webElement;
+        }
+
+        private static List<IWebElement> FindAndPredictTWebElements(IWebDriver driver, IModel model, Icons label)
+        {
+            var javaScriptExecutor = (IJavaScriptExecutor)driver;
+            if (!(javaScriptExecutor.ExecuteScript(Properties.Resources.GetElements) is IList<IWebElement> webElements)) return default;
+            var elements = new List<IWebElement>();
+            foreach (var element in webElements)
+            {
+                var elementImage = ((ITakesScreenshot)element)?.GetScreenshot();
+                var byteArray = elementImage?.AsByteArray;
+                if (!model.Predict(byteArray, label.ToString().ToLower()).Prediction) continue;
+                elements.Add(element);
+            }
+            return elements;
         }
     }
 }
