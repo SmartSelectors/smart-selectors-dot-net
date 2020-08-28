@@ -3,18 +3,50 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
     using System.Drawing;
     using System.Drawing.Imaging;
     using System.IO;
     using System.Linq;
     using Newtonsoft.Json;
 
+    [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
     public static class Utils
     {
         public const string PassedPredictionsFolder = "PassedPredictions";
         public const string FailedPredictionsFolder = "FailedPrediction";
 
-        public static SummaryModel PredictCategory(IEnumerable<Image> images, IModel model, string category, string basePath)
+        internal static SummaryModel PredictTestSet(IModel model)
+        {
+            var directoryInfo = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent;
+            var folders = Directory.EnumerateDirectories(Path.Combine(directoryInfo.FullName, "Integration/TestSet")).ToList();
+
+            var basePath = $"C:\\Screenshots\\WebIconsPredictor_TestSet_{DateTime.Now:yyyyMMddHHmmss}";
+            var summaries = new List<ISummaryModel>();
+            var categoriesCount = 0;
+
+            foreach (var folder in folders)
+            {
+                var label = folder.Split(Path.DirectorySeparatorChar).Last();
+                Directory.CreateDirectory($"{basePath}\\{label}\\{Utils.PassedPredictionsFolder}");
+                Directory.CreateDirectory($"{basePath}\\{label}\\{Utils.FailedPredictionsFolder}");
+                Directory.CreateDirectory($"{basePath}\\z_Failed");
+
+                var directory = new DirectoryInfo(folder);
+                var images = directory.GetFiles().Select(x => Image.FromFile(x.FullName));
+
+                var categorySummary = Utils.PredictCategory(images, model, label, basePath);
+                var categoryJsonSummary = JsonConvert.SerializeObject(categorySummary);
+                File.WriteAllText($"{basePath}\\{label}\\{label}_summary.json", categoryJsonSummary);
+                summaries.Add(categorySummary);
+                categoriesCount += 1;
+            }
+
+            var summary = CreateSummary(summaries, categoriesCount, basePath);
+            return summary;
+        }
+
+        private static SummaryModel PredictCategory(IEnumerable<Image> images, IModel model, string category, string basePath)
         {
             var summary = new SummaryModel();
             var timeSpans = new List<TimeSpan>();
@@ -56,7 +88,7 @@
             return summary;
         }
 
-        public static SummaryModel CreateSummary(List<ISummaryModel> summaries, int categoriesCount, string basePath)
+        private static SummaryModel CreateSummary(List<ISummaryModel> summaries, int categoriesCount, string basePath)
         {
             var passedPredictions = summaries.Sum(x => x.PassedPredictions);
             var failedPredictions = summaries.Sum(x => x.FailedPredictions);
