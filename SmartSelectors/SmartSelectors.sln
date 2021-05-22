@@ -7,9 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartSelectors", "SmartSele
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartSelectors.Selenium", "SmartSelectors.Selenium\SmartSelectors.Selenium.csproj", "{8C05A104-4515-445E-972E-750A2B1CE116}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartSelectors.Tests", "SmartSelectors.Tests\SmartSelectors.Tests.csproj", "{28FFEB83-DCEA-43C1-ACDC-2C0A67553B8C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartSelectors.Tests", "SmartSelectors.Tests\SmartSelectors.Tests.csproj", "{28FFEB83-DCEA-43C1-ACDC-2C0A67553B8C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartSelectors.Selenium.Tests", "SmartSelectors.Selenium.Tests\SmartSelectors.Selenium.Tests.csproj", "{61B9EE98-1FC2-4BB7-8006-868B629413C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartSelectors.Selenium.Tests", "SmartSelectors.Selenium.Tests\SmartSelectors.Selenium.Tests.csproj", "{61B9EE98-1FC2-4BB7-8006-868B629413C7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartSelectors.Playwright", "SmartSelectors.Playwright\SmartSelectors.Playwright.csproj", "{0931C791-ADF8-4310-95BD-5221AAB14EE3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartSelectors.Playwright.Tests", "SmartSelectors.Playwright.Tests\SmartSelectors.Playwright.Tests.csproj", "{AEA80A6E-3D23-427D-BF4E-28FE636913A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{61B9EE98-1FC2-4BB7-8006-868B629413C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61B9EE98-1FC2-4BB7-8006-868B629413C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61B9EE98-1FC2-4BB7-8006-868B629413C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0931C791-ADF8-4310-95BD-5221AAB14EE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0931C791-ADF8-4310-95BD-5221AAB14EE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0931C791-ADF8-4310-95BD-5221AAB14EE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0931C791-ADF8-4310-95BD-5221AAB14EE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEA80A6E-3D23-427D-BF4E-28FE636913A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEA80A6E-3D23-427D-BF4E-28FE636913A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEA80A6E-3D23-427D-BF4E-28FE636913A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEA80A6E-3D23-427D-BF4E-28FE636913A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
