@@ -5,45 +5,49 @@
     using NUnit.Framework;
     using OpenQA.Selenium;
     using OpenQA.Selenium.Chrome;
+    using OpenQA.Selenium.Support.UI;
 
     public class DriverExtensionMethodsIntegrationTests
     {
         private IWebDriver _driver;
-        private const string CartMessageXPath = "//h1[@data-automation-id='cart-list-title']/span/span";
-        private const string ExpectedCartMessage = "0 items in your cart";
+        private const string CartCardSelector = "#sc-active-cart";
+        private WebDriverWait _wait;
 
         [SetUp]
         public void SetUp()
         {
-            _driver = new ChromeDriver();
+            var options = new ChromeOptions();
+            options.AddArgument("--lang=en");
+            _driver = new ChromeDriver(options);
             _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
             _driver.Manage().Window.Maximize();
+            _wait = new WebDriverWait(_driver, TimeSpan.FromMilliseconds(30000));
         }
 
         [Test]
         public void FindIconWithLocalModel()
         {
-            _driver.Navigate().GoToUrl("https://www.walmart.com/");
+            _driver.Navigate().GoToUrl("https://www.amazon.com/");
             var cartIcon = _driver.FindIcon(Icons.Cart);
             cartIcon.Click();
-            var cartMessage = _driver.FindElement(By.XPath(CartMessageXPath));
-            cartMessage.Text.Should().Be(ExpectedCartMessage);
+            var cartCard = _driver.FindElement(By.CssSelector(CartCardSelector));
+            cartCard.Displayed.Should().BeTrue();
         }
 
         [Test]
         public void FindIconWithApiModel()
         {
-            _driver.Navigate().GoToUrl("https://www.walmart.com/");
+            _driver.Navigate().GoToUrl("https://www.amazon.com/");
             var cartIcon = _driver.FindIcon(Icons.Cart, true);
             cartIcon.Click();
-            var cartMessage = _driver.FindElement(By.XPath(CartMessageXPath));
-            cartMessage.Text.Should().Be(ExpectedCartMessage);
+            var cartCard = _driver.FindElement(By.CssSelector(CartCardSelector));
+            cartCard.Displayed.Should().BeTrue();
         }
 
         [Test]
         public void FindIconShouldThrowNoSuchElementException()
         {
-            _driver.Navigate().GoToUrl("https://www.walmart.com/");
+            _driver.Navigate().GoToUrl("https://www.amazon.com/");
             _driver.Invoking(x => x.FindIcon(Icons.Add))
                 .Should().Throw<NoSuchElementException>()
                 .WithMessage($"Unable to locate {Icons.Add} icon.");
@@ -52,17 +56,17 @@
         [Test]
         public void FindIconWithASelfHealingSelector()
         {
-            _driver.Navigate().GoToUrl("https://www.walmart.com/");
+            _driver.Navigate().GoToUrl("https://www.amazon.com/");
             var cartIcon = _driver.FindElement(By.CssSelector("#brokenSelector"), Icons.Cart);
             cartIcon.Click(); 
-            var cartMessage = _driver.FindElement(By.XPath(CartMessageXPath));
-            cartMessage.Text.Should().Be(ExpectedCartMessage);
+            var cartCard = _driver.FindElement(By.CssSelector(CartCardSelector));
+            cartCard.Displayed.Should().BeTrue();
         }
 
         [Test]
         public void SelfHealingSelectorShouldThrowNoSuchElementException()
         {
-            _driver.Navigate().GoToUrl("https://www.walmart.com/");
+            _driver.Navigate().GoToUrl("https://www.amazon.com/");
             _driver.Invoking(x => x.FindElement(By.CssSelector("#brokenSelector"), Icons.Add))
                 .Should().Throw<NoSuchElementException>()
                 .Where(x => x.Message.Contains("no such element: Unable to locate element:"))
