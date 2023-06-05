@@ -2,7 +2,7 @@
 
 [![](https://img.shields.io/github/workflow/status/SmartSelectors/smart-selectors-dot-net/publish-SmartSelectors.Selenium?style=plastic)](https://github.com/SmartSelectors/smart-selectors-dot-net/actions) [![](https://img.shields.io/nuget/dt/SmartSelectors.Selenium?color=blue&style=plastic)](https://www.nuget.org/packages/SmartSelectors.Selenium/) [![](https://img.shields.io/github/license/SmartSelectors/smart-selectors-dot-net?color=lightgrey&style=plastic)](https://github.com/SmartSelectors/smart-selectors-dot-net/blob/master/LICENSE)
 
-Smart Selectors .NET is a set of Selenium extension methods to find elemens using machine learning models.
+Smart Selectors .NET is a set of Selenium extension methods to find elements using machine learning models.
 
 ## Setup
 
