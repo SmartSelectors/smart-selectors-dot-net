@@ -31,7 +31,7 @@ jobs:
       - name: Get Published Version
         id: get_published_version
         run: |
-          $packageName = "SmartSelector"
+          $packageName = "SmartSelectors"
           $url = "https://api.nuget.org/v3-flatcontainer/$packageName/index.json"
           $publishedVersion = Invoke-RestMethod -Method Get -Uri $url
           echo "::set-output name=PUBLISHED_VERSION::$( $publishedVersion.versions[-1] )"
