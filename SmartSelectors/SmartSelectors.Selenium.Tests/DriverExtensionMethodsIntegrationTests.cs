@@ -10,7 +10,7 @@
     public class DriverExtensionMethodsIntegrationTests
     {
         private IWebDriver _driver;
-        private const string CartCardSelector = "#sc-active-cart";
+        private const string CartCardSelector = "#main-menu div.shadow p.no-items";
         private WebDriverWait _wait;
 
         [SetUp]
@@ -27,27 +27,27 @@
         [Test]
         public void FindIconWithLocalModel()
         {
-            _driver.Navigate().GoToUrl("https://www.amazon.com/");
+            _driver.Navigate().GoToUrl("https://www.restorationseeds.com/");
             var cartIcon = _driver.FindIcon(Icons.Cart);
             cartIcon.Click();
-            var cartCard = _driver.FindElement(By.CssSelector(CartCardSelector));
-            cartCard.Displayed.Should().BeTrue();
+            var cartMessage = _driver.FindElement(By.CssSelector(CartCardSelector));
+            cartMessage.Text.Should().Be("YOUR CART IS EMPTY");
         }
 
         [Test]
         public void FindIconWithApiModel()
         {
-            _driver.Navigate().GoToUrl("https://www.amazon.com/");
+            _driver.Navigate().GoToUrl("https://www.restorationseeds.com/");
             var cartIcon = _driver.FindIcon(Icons.Cart, true);
             cartIcon.Click();
-            var cartCard = _driver.FindElement(By.CssSelector(CartCardSelector));
-            cartCard.Displayed.Should().BeTrue();
+            var cartMessage = _driver.FindElement(By.CssSelector(CartCardSelector));
+            cartMessage.Text.Should().Be("YOUR CART IS EMPTY");
         }
 
         [Test]
         public void FindIconShouldThrowNoSuchElementException()
         {
-            _driver.Navigate().GoToUrl("https://www.amazon.com/");
+            _driver.Navigate().GoToUrl("https://www.restorationseeds.com/");
             _driver.Invoking(x => x.FindIcon(Icons.Add))
                 .Should().Throw<NoSuchElementException>()
                 .WithMessage($"Unable to locate {Icons.Add} icon.");
@@ -56,17 +56,17 @@
         [Test]
         public void FindIconWithASelfHealingSelector()
         {
-            _driver.Navigate().GoToUrl("https://www.amazon.com/");
+            _driver.Navigate().GoToUrl("https://www.restorationseeds.com/");
             var cartIcon = _driver.FindElement(By.CssSelector("#brokenSelector"), Icons.Cart);
-            cartIcon.Click(); 
-            var cartCard = _driver.FindElement(By.CssSelector(CartCardSelector));
-            cartCard.Displayed.Should().BeTrue();
+            cartIcon.Click();
+            var cartMessage = _driver.FindElement(By.CssSelector(CartCardSelector));
+            cartMessage.Text.Should().Be("YOUR CART IS EMPTY");
         }
 
         [Test]
         public void SelfHealingSelectorShouldThrowNoSuchElementException()
         {
-            _driver.Navigate().GoToUrl("https://www.amazon.com/");
+            _driver.Navigate().GoToUrl("https://www.restorationseeds.com/");
             _driver.Invoking(x => x.FindElement(By.CssSelector("#brokenSelector"), Icons.Add))
                 .Should().Throw<NoSuchElementException>()
                 .Where(x => x.Message.Contains("no such element: Unable to locate element:"))

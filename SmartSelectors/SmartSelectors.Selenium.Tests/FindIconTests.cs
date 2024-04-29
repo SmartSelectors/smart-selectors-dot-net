@@ -30,8 +30,8 @@
             cartIcon.Click();
             var wait = new WebDriverWait(_driver, TimeSpan.FromMilliseconds(500));
             wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(
-                "div.elementor-menu-cart__main[aria-expanded=true] div.woocommerce-mini-cart__empty-message")));
-            var cartMessage = _driver.FindElement(By.CssSelector("div.elementor-menu-cart__main[aria-expanded=true] div.woocommerce-mini-cart__empty-message"));
+                ".woocommerce-mini-cart__empty-message")));
+            var cartMessage = _driver.FindElement(By.CssSelector(".woocommerce-mini-cart__empty-message"));
             cartMessage.Text.Should().Be("No products in the cart.");
         }
 
