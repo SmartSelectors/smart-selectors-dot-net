@@ -9,12 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      
+
       # Publish
       - name: publish SmartSelectors.Selenium on version change
-        uses: rohith/publish-nuget@v2
+        uses: brandedoutcast/publish-nuget@v2
         with:
-          PROJECT_FILE_PATH: SmartSelectors/SmartSelectors.Selenium/SmartSelectors.Selenium.csproj # Relative to repository root:  
+          PROJECT_FILE_PATH: SmartSelectors/SmartSelectors.Selenium/SmartSelectors.Selenium.csproj # Relative to repository root:
           # VERSION_FILE_PATH: Directory.Build.props # Filepath with version info, relative to repository root. Defaults to project file
           # VERSION_REGEX: <Version>(.*)<\/Version> # Regex pattern to extract version info in a capturing group
           # TAG_COMMIT: true # Flag to enable / disalge git tagging
