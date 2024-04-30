@@ -18,9 +18,6 @@ jobs:
         with:
           dotnet-version: "3.1.x"
 
-      - name: Install PowerShell
-        run: sudo apt-get install -y powershell
-
       - name: Extract Project Version
         id: get_version
         run: |
@@ -35,8 +32,9 @@ jobs:
         run: |
           $url = "https://api.nuget.org/v3-flatcontainer/SmartSelectors/index.json"
           Write-Output "URL: $url"
-          $response = Invoke-RestMethod -Method Get -Uri $url -ErrorAction Stop -Verbose
-          $latestVersion = $response.versions[-1]
+          $response = Invoke-WebRequest -Uri $url -Method Get -Verbose -ErrorAction Stop
+          $json = $response.Content | ConvertFrom-Json
+          $latestVersion = $json.versions[-1]
           Write-Output "Latest version of $packageName is $latestVersion"
           echo "PUBLISHED_VERSION=$latestVersion" >> $GITHUB_ENV
         shell: pwsh
