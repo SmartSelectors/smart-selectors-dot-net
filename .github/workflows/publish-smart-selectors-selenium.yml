@@ -1,4 +1,4 @@
-name: Build and Publish SmartSelector.Selenium NuGet Package
+name: Build and Publish SmartSelectors.Selenium NuGet Package
 
 on:
   push:
@@ -24,8 +24,9 @@ jobs:
       - name: Extract Project Version
         id: get_version
         run: |
-          $version = [xml](Get-Content SmartSelectors/SmartSelectors.Selenium/SmartSelectors.Selenium.csproj)
-          echo "::set-output name=PROJECT_VERSION::$($version.Project.PropertyGroup.Version)"
+          $version = [xml](Get-Content SmartSelectors/SmartSelectors.Selenium/SmartSelectors.Selenium.csproj).Project.PropertyGroup.Version
+          Write-Output "Project version is $version"
+          echo "PROJECT_VERSION=$version" >> $GITHUB_ENV
         shell: pwsh
 
       - name: Get Published Version
@@ -34,12 +35,24 @@ jobs:
           $packageName = "SmartSelectors.Selenium"
           $url = "https://api.nuget.org/v3-flatcontainer/$packageName/index.json"
           Write-Output "URL: $url"
-          $publishedVersion = Invoke-RestMethod -Method Get -Uri $url
-          echo "::set-output name=PUBLISHED_VERSION::$( $publishedVersion.versions[-1] )"
+          $response = Invoke-RestMethod -Method Get -Uri $url -ErrorAction Stop
+          $latestVersion = $response.versions[-1]
+          Write-Output "Latest version of $packageName is $latestVersion"
+          echo "PUBLISHED_VERSION=$latestVersion" >> $GITHUB_ENV
+        shell: pwsh
+
+      - name: Check if versions differ
+        run: |
+          if ("${{ env.PROJECT_VERSION }}" -ne "${{ env.PUBLISHED_VERSION }}") {
+            Write-Output "New version found: $env:PROJECT_VERSION. Publishing..."
+            echo "SHOULD_PUBLISH=true" >> $GITHUB_ENV
+          } else {
+            echo "SHOULD_PUBLISH=false" >> $GITHUB_ENV
+          }
         shell: pwsh
 
       - name: Publish Package if Version Changed
-        if: steps.get_version.outputs.PROJECT_VERSION != steps.get_published_version.outputs.PUBLISHED_VERSION
+        if: env.SHOULD_PUBLISH == 'true'
         run: |
           dotnet build --configuration Release --no-restore SmartSelectors/SmartSelectors.Selenium/SmartSelectors.Selenium.csproj
           dotnet pack --configuration Release --no-build --output nupkgs SmartSelectors/SmartSelectors.Selenium/SmartSelectors.Selenium.csproj
