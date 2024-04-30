@@ -64,5 +64,5 @@ jobs:
           Write-Output "Publishing SmartSelectors package..."
           dotnet build --configuration Release SmartSelectors/SmartSelectors/SmartSelectors.csproj
           dotnet pack --configuration Release --no-build --output nupkgs SmartSelectors/SmartSelectors/SmartSelectors.csproj
-          dotnet nuget push "nupkgs/*.nupkg" --api-key "${{ secrets.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json
+          dotnet nuget push "nupkgs/*.nupkg" --api-key "${{ secrets.NUGET_KEY }}" --source https://api.nuget.org/v3/index.json
         shell: pwsh
