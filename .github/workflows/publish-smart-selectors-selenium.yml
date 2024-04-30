@@ -27,28 +27,25 @@ jobs:
           Add-Content -Path $env:GITHUB_ENV -Value "PROJECT_VERSION=$version"
         shell: pwsh
 
-      # - name: Get Published Version
-      #   run: |
-      #     url="https://api.nuget.org/v3-flatcontainer/SmartSelectors.Selenium/index.json"
-      #     jsonResponse=$(curl -s $url)
-      #     echo "Raw JSON Response: $jsonResponse"  # Debug output to see the raw JSON
-      #     latestVersion=$(echo $jsonResponse | jq -r '.versions[-1]')
-      #     echo "Latest version of SmartSelectors.Selenium is $latestVersion"
-      #     echo "PUBLISHED_VERSION=$latestVersion" >> $GITHUB_ENV
-      #   shell: bash
-
       - name: Install NuGet CLI
         run: |
           sudo apt-get update
           sudo apt-get install -y nuget
 
-      - name: Get Published Version
-        id: get_published_version
-        run: |
-          $packageName = "SmartSelectors.Selenium"
-          $latestVersion = nuget list $packageName -Source https://api.nuget.org/v3/index.json | grep $packageName | awk '{print $2}'
-          Write-Output "Published version is $latestVersion"
-          Add-Content -Path $env:GITHUB_ENV -Value "PUBLISHED_VERSION=$latestVersion"
+          - name: Get Published Version
+          id: get_published_version
+          run: |
+            $packageName = "SmartSelectors.Selenium"
+            $versionList = nuget list $packageName -Source https://api.nuget.org/v3/index.json | Where-Object {
+              $_ -match "^$packageName\s"
+            }
+            $latestVersion = if ($versionList) {
+              $versionList -split '\s+' | Select-Object -Last 1
+            } else {
+              Write-Error "No versions found for $packageName."
+            }
+            Write-Output "Published version is $latestVersion"
+            Add-Content -Path $env:GITHUB_ENV -Value "PUBLISHED_VERSION=$latestVersion"
         shell: pwsh
 
       - name: Check if versions differ
