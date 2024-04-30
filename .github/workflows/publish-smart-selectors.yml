@@ -32,6 +32,7 @@ jobs:
         run: |
           url="https://api.nuget.org/v3-flatcontainer/SmartSelectors/index.json"
           jsonResponse=$(curl -s $url)
+          echo "Raw JSON Response: $jsonResponse"  # Debug output to see the raw JSON
           latestVersion=$(echo $jsonResponse | jq -r '.versions[-1]')
           echo "Latest version of SmartSelectors.Selenium is $latestVersion"
           echo "PUBLISHED_VERSION=$latestVersion" >> $GITHUB_ENV
