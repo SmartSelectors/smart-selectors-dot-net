@@ -21,7 +21,6 @@ jobs:
       - name: Extract Project Version
         id: get_version
         run: |
-          ls
           $fileContent = [xml](Get-Content SmartSelectors/SmartSelectors/SmartSelectors.csproj)
           $version = $fileContent.Project.PropertyGroup.Version
           Write-Output "Project version is $version"
@@ -31,13 +30,12 @@ jobs:
       - name: Get Published Version
         id: get_published_version
         run: |
-          $url = "https://api.nuget.org/v3-flatcontainer/SmartSelectors/index.json"
-          $jsonResponse = & curl.exe -s $url
-          $nugetInfo = $jsonResponse | ConvertFrom-Json
-          $latestVersion = $nugetInfo.versions[-1]
-          Write-Output "Latest version of $packageName is $latestVersion"
+          url="https://api.nuget.org/v3-flatcontainer/SmartSelectors/index.json"
+          jsonResponse=$(curl -s $url)
+          latestVersion=$(echo $jsonResponse | jq -r '.versions[-1]')
+          echo "Latest version of SmartSelectors.Selenium is $latestVersion"
           echo "PUBLISHED_VERSION=$latestVersion" >> $GITHUB_ENV
-        shell: pwsh
+        shell: bash
 
       - name: Check if versions differ
         run: |
