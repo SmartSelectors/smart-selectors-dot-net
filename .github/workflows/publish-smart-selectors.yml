@@ -22,7 +22,8 @@ jobs:
         id: get_version
         run: |
           ls
-          $version = [xml](Get-Content SmartSelectors/SmartSelectors/SmartSelectors.csproj).Project.PropertyGroup.Version
+          $fileContent = [xml](Get-Content SmartSelectors/SmartSelectors/SmartSelectors.csproj)
+          $version = $fileContent.Project.PropertyGroup.Version
           Write-Output "Project version is $version"
           echo "PROJECT_VERSION=$version" >> $GITHUB_ENV
         shell: pwsh
@@ -31,10 +32,9 @@ jobs:
         id: get_published_version
         run: |
           $url = "https://api.nuget.org/v3-flatcontainer/SmartSelectors/index.json"
-          Write-Output "URL: $url"
-          $response = Invoke-WebRequest -Uri $url -Method Get -Verbose -ErrorAction Stop
-          $json = $response.Content | ConvertFrom-Json
-          $latestVersion = $json.versions[-1]
+          $jsonResponse = & curl.exe -s $url
+          $nugetInfo = $jsonResponse | ConvertFrom-Json
+          $latestVersion = $nugetInfo.versions[-1]
           Write-Output "Latest version of $packageName is $latestVersion"
           echo "PUBLISHED_VERSION=$latestVersion" >> $GITHUB_ENV
         shell: pwsh
