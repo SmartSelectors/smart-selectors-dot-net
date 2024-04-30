@@ -62,7 +62,7 @@ jobs:
         if: env.SHOULD_PUBLISH == 'true'
         run: |
           Write-Output "Publishing SmartSelectors.Selenium package..."
-          dotnet build --configuration Release --no-restore SmartSelectors/SmartSelectors.Selenium/SmartSelectors.Selenium.csproj
+          dotnet build --configuration Release SmartSelectors/SmartSelectors.Selenium/SmartSelectors.Selenium.csproj
           dotnet pack --configuration Release --no-build --output nupkgs SmartSelectors/SmartSelectors.Selenium/SmartSelectors.Selenium.csproj
           dotnet nuget push "nupkgs/*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
         shell: pwsh
