@@ -33,6 +33,7 @@ jobs:
         run: |
           $packageName = "SmartSelectors.Selenium"
           $url = "https://api.nuget.org/v3-flatcontainer/$packageName/index.json"
+          Write-Output "URL: $url"
           $publishedVersion = Invoke-RestMethod -Method Get -Uri $url
           echo "::set-output name=PUBLISHED_VERSION::$( $publishedVersion.versions[-1] )"
         shell: pwsh
