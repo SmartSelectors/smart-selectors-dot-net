@@ -24,7 +24,7 @@ jobs:
           $fileContent = [xml](Get-Content SmartSelectors/SmartSelectors.Selenium/SmartSelectors.Selenium.csproj)
           $version = $fileContent.Project.PropertyGroup.Version
           Write-Output "Project version is $version"
-          echo "PROJECT_VERSION=$version" >> $GITHUB_ENV
+          Add-Content -Path $env:GITHUB_ENV -Value "PROJECT_VERSION=$version"
         shell: pwsh
 
       - name: Get Published Version
@@ -41,9 +41,9 @@ jobs:
         run: |
           if ("${{ env.PROJECT_VERSION }}" -ne "${{ env.PUBLISHED_VERSION }}") {
             Write-Output "New version found: $env:PROJECT_VERSION. Publishing..."
-            echo "SHOULD_PUBLISH=true" >> $GITHUB_ENV
-          } else {
-            echo "SHOULD_PUBLISH=false" >> $GITHUB_ENV
+            Add-Content -Path $env:GITHUB_ENV -Value "SHOULD_PUBLISH=true"
+            } else {
+            Add-Content -Path $env:GITHUB_ENV -Value "SHOULD_PUBLISH=false"
           }
         shell: pwsh
 
