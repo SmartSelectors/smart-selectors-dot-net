@@ -33,10 +33,9 @@ jobs:
       - name: Get Published Version
         id: get_published_version
         run: |
-          $packageName = "SmartSelectors.Selenium"
-          $url = "https://api.nuget.org/v3-flatcontainer/$packageName/index.json"
+          $url = "https://api.nuget.org/v3-flatcontainer/SmartSelectors.Selenium/index.json"
           Write-Output "URL: $url"
-          $response = Invoke-RestMethod -Method Get -Uri $url -ErrorAction Stop
+          $response = Invoke-RestMethod -Method Get -Uri $url -ErrorAction Stop -Verbose
           $latestVersion = $response.versions[-1]
           Write-Output "Latest version of $packageName is $latestVersion"
           echo "PUBLISHED_VERSION=$latestVersion" >> $GITHUB_ENV
